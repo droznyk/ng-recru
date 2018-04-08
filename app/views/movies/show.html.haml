@@ -3,3 +3,10 @@
   = @movie.description
 - if user_signed_in?
   %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'
+= render 'comments/new_comment_form'
+%h2 Comments:
+- @movie.comments.each do |comment|
+  %p= comment.content
+  - if comment.user == current_user
+    =link_to 'Delete comment', movie_comment_path(:id => comment, :movie_id => comment.movie_id), method: :delete, class: 'btn btn-danger btn-sm text-left'
+  %hr
