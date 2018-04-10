@@ -1,0 +1,6 @@
+- if current_user
+  = form_for @movie.comments.new, url: movie_comments_path(@movie)  do |f|
+    %p= f.text_area :content, placeholder: 'Write your comment here...'
+    =f.hidden_field :user_id, value: current_user.id
+    %p= f.submit 'Submit', class: 'btn btn-primary'
+    
