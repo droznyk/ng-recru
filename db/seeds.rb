@@ -82,3 +82,15 @@ if Movie.count < 100
     )
   end
 end
+
+Rails.logger.info "Creating comments..."
+
+user_ids = User.pluck(:id)
+movie_ids = Movie.pluck(:id)
+100.times do
+  Comment.create!( 
+    content: Faker::StarWars.quote,
+    user_id: user_ids.sample,
+    movie_id: movie_ids.sample
+  )
+end
