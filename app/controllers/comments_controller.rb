@@ -25,6 +25,13 @@ class CommentsController < ApplicationController
     end
   end
 
+  def top_commenters
+    commenters_array = Comment.top_10_commenters_last_week
+    users = User.all
+    @top_commenters = []
+    commenters_array.each { |key, value| @top_commenters << users[key-1] }
+  end
+
   private
 
   def comment_params
