@@ -9,4 +9,8 @@
   %p= comment.content
   - if comment.user == current_user
     =link_to 'Delete comment', movie_comment_path(:id => comment, :movie_id => comment.movie_id), method: :delete, class: 'btn btn-danger btn-sm text-left'
-  %hr
+  - if comment.user
+    %p
+      Author:
+      = comment.user.name
+    %hr
