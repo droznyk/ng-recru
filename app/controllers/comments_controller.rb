@@ -5,11 +5,9 @@ class CommentsController < ApplicationController
     if current_user.comments.find_by(movie_id: params[:movie_id])
       comment_already_exists
     elsif @comment.save
-      flash[:notice] = 'Comment has been added successfully'
-      redirect_to movie_path(params[:movie_id])
+      comment_saved
     else
-      flash[:errors] = @comment.errors.full_messages
-      redirect_back(fallback_location: root_path)
+      handle_comment_saving_error
     end
   end
 
@@ -21,7 +19,7 @@ class CommentsController < ApplicationController
       redirect_to movies_path
     else
       flash[:error] = "This is not your comment!"
-    redirect_back(fallback_location: movies_path)
+      redirect_back(fallback_location: movies_path)
     end
   end
 
@@ -41,5 +39,15 @@ class CommentsController < ApplicationController
   def comment_already_exists
     flash[:error] = "You've already commented this film"
     redirect_back(fallback_location: movies_path)
+  end
+
+  def comment_saved
+    flash[:notice] = 'Comment has been added successfully'
+    redirect_to movie_path(params[:movie_id])
+  end
+
+  def handle_comment_saving_error
+    flash[:errors] = @comment.errors.full_messages
+    redirect_back(fallback_location: root_path)
   end
 end
